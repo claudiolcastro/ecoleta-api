@@ -10,7 +10,12 @@ routes.get('/', (request, response) => {
 routes.get('/items', async (request, response) => {
   const items = await Knex('items').select('*');
 
-  return response.json(items);
+  const serializedItems = items.map((item) => ({
+    title: item.title,
+    image: `http://localhost:3333/uploads/${item.image}`,
+  }));
+
+  return response.json(serializedItems);
 });
 
 export default routes;
